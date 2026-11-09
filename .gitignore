@@ -70,8 +70,10 @@ dev-dialog-preview/
 # Browser session logs (local debugging artifacts)
 browse/
 
-# Local-only documents (ADRs, prototypes, and design drafts)
-/docs/
+# Local-only documents (ADRs, prototypes, and design drafts).
+# The user guide is required by the UI and build, so keep it in the repository.
+/docs/*
+!/docs/user-guide.md
 
 # Temporary extension-unpacking diagnostics
 .tmp-extdiag/
