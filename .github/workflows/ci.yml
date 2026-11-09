@@ -3,9 +3,9 @@ name: CI
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   check:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           # 24：下面的 test:utils 用 node --test 直接加载 .ts 源码（原生类型剥离），
-          # Node 20 不支持、会 ERR_UNKNOWN_FILE_EXTENSION。构建产物不受影响（release.yml 仍走 20）
+          # Node 20 不支持、会 ERR_UNKNOWN_FILE_EXTENSION。Release workflow also uses Node 24.
           node-version: 24
           cache: npm
 
