@@ -1,0 +1,32 @@
+{
+  "npm.packageManager": "npm",
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:USERPROFILE}\\.cargo\\bin;${env:PATH}"
+  },
+  "terminal.integrated.env.linux": {
+    "PATH": "${env:HOME}/.cargo/bin:${env:PATH}"
+  },
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:HOME}/.cargo/bin:${env:PATH}"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "rust-analyzer.linkedProjects": ["src-tauri/Cargo.toml"],
+  "files.eol": "\n",
+  "[powershell]": {
+    "files.eol": "\r\n"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/dist-market": true,
+    "**/dist-release": true,
+    "**/src-tauri/target": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/src-tauri/target/**": true
+  }
+}

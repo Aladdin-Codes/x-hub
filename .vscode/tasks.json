@@ -1,0 +1,125 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "cwd": "${workspaceFolder}",
+    "env": {
+      "PATH": "${env:HOME}/.cargo/bin${pathSeparator}${env:PATH}"
+    }
+  },
+  "windows": {
+    "options": {
+      "shell": {
+        "executable": "cmd.exe",
+        "args": ["/d", "/c"]
+      },
+      "env": {
+        "PATH": "${env:USERPROFILE}\\.cargo\\bin;${env:PATH}"
+      }
+    }
+  },
+  "tasks": [
+    {
+      "label": "deps: install",
+      "type": "shell",
+      "command": "npm ci",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "ui: dev server",
+      "type": "shell",
+      "command": "npm run dev",
+      "detail": "Vite on http://localhost:1420. Used as preLaunchTask for debugging. Do not run alongside tauri: dev (same port).",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "^\\s*(Error|error):\\s*(.*)$",
+          "message": 2
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE v",
+          "endsPattern": "ready in"
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "dev" }
+    },
+    {
+      "label": "tauri: dev (desktop app)",
+      "type": "shell",
+      "command": "npm run tauri:dev",
+      "detail": "Starts Vite through beforeDevCommand. Stop any running ui: dev server first.",
+      "problemMatcher": "$rustc",
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "dev" }
+    },
+    {
+      "label": "build: type-check and bundle",
+      "type": "shell",
+      "command": "npm run build",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$tsc",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "rust: check",
+      "type": "shell",
+      "command": "cargo check --manifest-path src-tauri/Cargo.toml",
+      "group": "build",
+      "problemMatcher": "$rustc",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "rust: build debug",
+      "type": "shell",
+      "command": "cargo build --manifest-path src-tauri/Cargo.toml",
+      "problemMatcher": "$rustc",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "debug: prepare",
+      "dependsOn": ["ui: dev server", "rust: build debug"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "build: Windows NSIS installer",
+      "type": "shell",
+      "command": "npm run tauri:build -- --bundles nsis",
+      "problemMatcher": "$rustc",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "test: frontend utils",
+      "type": "shell",
+      "command": "npm run test:utils",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "test: frontend security",
+      "type": "shell",
+      "command": "npm run test:security",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "test: rust",
+      "type": "shell",
+      "command": "npm run tauri:test",
+      "detail": "Windows only: requires PowerShell 7 and the Windows SDK mt.exe manifest tool.",
+      "group": "test",
+      "problemMatcher": "$rustc",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "check: workspace configuration",
+      "type": "shell",
+      "command": "npm run check:workspace",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    }
+  ]
+}
